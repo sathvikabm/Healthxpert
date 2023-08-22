@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <h1>Dashboard</h1>
+    <style>
+        body {
+            background-image: linear-gradient(to right, rgba(197, 230, 233, 0.7), rgba(197, 203, 214, 0.7)), url('../static/login.png');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            justify-items: center;
+            padding: 50px 0;
+        }
+
+        .grid-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .grid-item img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #120505ed;
+            text-align: center;
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="grid">
+            <div class="grid-item">
+                <a href="/chatbot"><img src="{{ url_for('static', filename='chatbot.png') }}" alt="Chatbot"><p>Chatbot</p></a>
+            </div>
+            <div class="grid-item">
+                <a href="/addpatient"><img src="{{ url_for('static', filename='docrecord.png') }}" alt="Add Patient Record"><p>Add Patient Record</p></a>
+            </div>
+            <div class="grid-item">
+                <a href="/patientrecords"><img src="{{ url_for('static', filename='docmanyrecord.png') }}" alt="Patient Records"><p>Patient Records</p></a>
+            </div>
+            <div class="logout-button">
+                <button onclick="location.href='home.html'">Logout</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

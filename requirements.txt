@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug==2.0.1
+bcrypt==3.2.0
+tensorflow-cpu
+numpy==1.19.5
+joblib==1.1.0
+protobuf==3.20.*

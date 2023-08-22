@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+        body {
+            background-image: url('../static/login.png');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #chatbox {
+            width: 55%;
+            height: 600px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+        }
+        #chat-form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 60%;
+            margin: 30px auto;
+        }
+        #chat-form input[type="text"] {
+            flex-basis: 60%;
+            padding: 10px;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        #chat-form input[type="file"] {
+        flex-basis: 15%;
+        color: black;
+        padding: 10px;
+        margin: 0 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        }
+        #chat-form #voiceButton {
+            flex-basis: 15%;
+            padding: 10px;
+            margin: 0 10px;
+            border: none;
+            color: #ffffff;
+            background-color: #FF4500;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #chat-form button[type="submit"] {
+            flex-basis: 10%;
+            padding: 10px;
+            margin: 0 10px;
+            border: none;
+            color: #ffffff;
+            background-color: #e27248;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .user-message {
+            text-align: right;
+            background-color: #68718f;
+            color: #094585;
+            padding: 10px;
+            margin: 5px 0 5px 15%;
+            border-radius: 10px;
+            width: 85%;
+            display: block;
+        }
+
+        .bot-message {
+            text-align: left;
+            background-color: #7bc59f;
+            color: #0e5c24;
+            padding: 10px;
+            margin: 5px 15% 5px 0;
+            border-radius: 10px;
+            width: 85%;
+            display: block;
+        }
+    </style>
+    <title>Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="chatbox"></div>
+
+    <form id="chat-form">
+        <input type="text" id="userInput" placeholder="Type your message..." required>
+        <input type="file" id="fileUpload" accept=".jpg">
+        <button id="voiceButton">Speak</button>
+        <button type="submit">&#10148;</button>
+    </form>
+
+    <script>
+        var currentStep = 0;
+        var pregnancies, skinThickness, insulin, diabetesPedigreeFunction;
+        function appendMessage(message, className) {
+            var messageElement = $("<p>").addClass(className).html('<strong>'+className+':</strong> '+message);
+            $("#chatbox").append(messageElement);
+        }
+        function handleUserInput(input) {
+          if (currentStep === 9) {
+        if (input.trim() !== '') {
+            appendMessage("Bot: Hi, what do you want me to predict? 1) Disease 2) PCOS 3) Diabetes", "bot-message");
+            currentStep = 0;
+        }
+    }
+    else {
+            if (currentStep === 0) {
+                if (input === '1') {
+                    appendMessage("Bot: What are the symptoms?", "bot-message");
+                    currentStep = 1;
+                } else if (input === '2') {
+                    appendMessage("Bot: Upload the ultrasound image for prediction", "bot-message");
+                    currentStep = 2;
+                } else if (input === '3') {
+                    appendMessage("Bot: Please provide the following information:");
+                    appendMessage("Bot: 1. Number of Pregnancies?");
+                    currentStep = 4;
+                } else {
+                    appendMessage("Bot: Invalid choice. Please select 1, 2, or 3.", "bot-message");
+                }
+            } else if (currentStep === 1) {
+              $.ajax({
+                url: '/get_disease_response',
+                data: { input_features: input },
+                type: 'POST',
+                success: function(response) {
+                    var result = response.result;
+                    appendMessage("Bot: " + result, "bot-message");
+
+                    appendMessage("Bot: Are we done?", "bot-message");
+
+                    currentStep = 8;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+                currentStep = 0;
+            } else if (currentStep === 2) {
+                var fileUpload = document.getElementById("fileUpload").files[0];
+                var formData = new FormData();
+                formData.append('message', 'pcos');
+                formData.append('file', fileUpload);
+
+                $.ajax({
+                    url: '/get_pcos_response',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: function(response) {
+                        var result = response.result;
+                        appendMessage("Bot: " + result, "bot-message");
+                        appendMessage("Bot: Are we done?", "bot-message");
+
+                        currentStep = 8;
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                currentStep = 0;
+            } else if (currentStep === 4) {
+                pregnancies = input;
+                appendMessage("Bot: 2. Skin Thickness (mm)?");
+                currentStep = 5;
+            } else if (currentStep === 5) {
+                skinThickness = input;
+                appendMessage("Bot: 3. Insulin level?");
+                currentStep = 6;
+            } else if (currentStep === 6) {
+                insulin = input;
+                appendMessage("Bot: 4. Diabetes Pedigree Function?");
+                currentStep = 7;
+            } else if (currentStep === 7) {
+                diabetesPedigreeFunction = input;
+
+                $.ajax({
+                    url: '/get_diabetes_response',
+                    data: {
+                        pregnancies: pregnancies,
+                        skinThickness: skinThickness,
+                        insulin: insulin,
+                        diabetesPedigreeFunction: diabetesPedigreeFunction
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        var result = response.result;
+                        appendMessage("Bot: " + result, "bot-message");
+                        appendMessage("Bot: Are we done?", "bot-message");
+
+                        currentStep = 8;
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+                currentStep = 0;
+            }
+            else if (currentStep === 8) {
+                if (input.toLowerCase() === 'yes') {
+                    appendMessage("Bot: Bye!", "bot-message");
+                    currentStep = 9;
+                    return;
+                } else if (input.toLowerCase() === 'no') {
+                    appendMessage("Bot: Hi, what do you want me to predict? 1) Disease 2) PCOS 3) Diabetes", "bot-message");
+                    currentStep = 0;
+                    return;
+                } else {
+                    appendMessage("Bot: Invalid response. Please enter 'yes' or 'no'.", "bot-message");
+                    return;
+                }
+            }
+          }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            var userInput = $("#userInput").val().trim();
+            $("#userInput").val('');
+
+            if (userInput !== '') {
+                appendMessage("You: " + userInput, "user-message");
+                handleUserInput(userInput);
+            }
+        }
+
+
+        function startSpeechRecognition() {
+            var recognition;
+            if (window.SpeechRecognition) {
+                recognition = new window.SpeechRecognition();
+            } else if (window.webkitSpeechRecognition) {
+                recognition = new window.webkitSpeechRecognition();
+            } else {
+                // SpeechRecognition is not available
+                console.error('SpeechRecognition is not available in this browser');
+                return;
+            }
+
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                console.log('Speech recognition started');
+            };
+
+            recognition.onresult = function(event) {
+                var transcript = event.results[0][0].transcript;
+                document.getElementById('userInput').value = transcript;
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+            };
+
+            recognition.onend = function() {
+                console.log('Speech recognition ended');
+            };
+
+            recognition.start();
+        }
+
+        document.getElementById('voiceButton').addEventListener('click', startSpeechRecognition);
+
+
+        var chatForm = document.querySelector('#chat-form');
+        chatForm.addEventListener('submit', handleFormSubmit);
+
+        appendMessage("Bot: Hi, what do you want me to predict? 1) Disease 2) PCOS 3) Diabetes", "bot-message");
+    </script>
+
+    <style>
+        body {
+        body {
+            background-color: #000;
+            background-color: #000;
+            color: #fff;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            padding: 20px;
+        }
+        }
+        .user-message {
+        .user-message {
+            color: #0ff;
+            color: rgba(142, 191, 241, 0.856);
+        }
+        }
+        .bot-message {
+        .bot-message {
+            color: #f0f;
+            color: rgb(4, 64, 43);
+        }
+        .user-message {
+            color: #0ff;
+        }
+        .bot-message {
+            color: #f0f;
+        }
+        }
+    </style>
+</body>
+</html>

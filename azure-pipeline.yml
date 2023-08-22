@@ -1,0 +1,32 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: echo Hello, Azure!
+    displayName: 'Print Hello Azure'
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+
+  - script: |
+      python -m venv env
+      source env/bin/activate
+      pip install -r requirements.txt
+      python app.py
+    displayName: 'Install dependencies and run Flask app'
+
+  - task: Docker@2
+    displayName: 'Login to Docker registry'
+    inputs:
+      command: login
+      containerRegistry: 'healthxpert.azurecr.io'
+      containerRegistryType: 'Container Registry'
+      username: healthxpert
+      password: 

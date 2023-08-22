@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, rgba(186, 218, 221, 0.8), rgba(73, 203, 214, 0.8)), url('../static/login.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.625);
+            padding: 30px 40px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .password-toggle {
+            display: flex;
+            align-items: center;
+        }
+        .password-toggle input {
+            margin-right: 10px;
+        }
+        .password-info {
+            font-size: 8px;
+            color: gray;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tooltip {
+            display: none;
+            width: 200px;
+            background-color: white;
+            color: black;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            transform: translate(-50%, -125%);
+            left: 50%;
+        }
+        .info-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('{{ url_for("static", filename="info-icon.png") }}');
+            background-size: cover;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .register-button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .tooltip {
+            display: none;
+            width: 200px;
+            background-color: white;
+            color: black;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            transform: translate(-50%, -125%);
+            left: 50%;
+        }
+        .toggle-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('{{ url_for("static", filename="eye-icon.png") }}'); 
+            background-size: cover;
+            cursor: pointer;
+        }
+        .password-toggle:hover .tooltip {
+            display: block;
+        }
+    </style>
+    <title>Add Doctor</title>
+    <script>
+        function toggleRole() {
+            var role = document.getElementById("role").value;
+            var specialization = document.getElementById("specialization");
+            if (role === "doctor") {
+                specialization.style.display = "block";
+            } else {
+                specialization.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Patient Record</h1>
+        <form action="/adddoctor" method="post">
+            <label for="fname">First Name:</label><br>
+            <input type="text" id="fname" name="fname" required><br>
+            <label for="lname">Last Name:</label><br>
+            <input type="text" id="lname" name="lname" required><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            <label for="phno">Phone Number:</label><br>
+            <input type="tel" id="phno" name="phno" required><br>
+            <label for="gender">Gender:</label><br>
+            <input type="gender" id="gender" name="gender" required><br>
+            <label for="patient_remarks">Patient Remarks:</label><br>
+            <textarea id="patient_remarks" name="patient_remarks" rows="5" cols="30"></textarea><br>
+            <label for="role">Role:</label><br>
+            <input type="radio" id="role" name="role" value="patient" onclick="toggleRole()" required> Patient<br>
+            <button type="submit">Add Patient</button>
+        </form>
+    </div>
+</body>
+</html>

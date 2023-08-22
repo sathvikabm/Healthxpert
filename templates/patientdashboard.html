@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <h1>Dashboard</h1>
+    <style>
+        body {
+            background-image: linear-gradient(to right, rgba(197, 230, 233, 0.7), rgba(197, 203, 214, 0.7)), url('../static/login.png');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            justify-items: center;
+            padding: 50px 0;
+        }
+
+        .grid-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .grid-item img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        h1 {
+            color: #180d0ded;
+            text-align: center;
+            font-size: 3em;
+        }
+        .logout-button {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .logout-button button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function logout() {
+            window.location.href = "/home.html";
+        }
+    </script>
+    <title>Logout</title>
+</head>
+<body>
+    <div class="content">
+        <div class="grid">
+            <div class="grid-item">
+                <a href="/adddoctor"><img src="{{ url_for('static', filename='adddoc.png') }}" alt="Add Doctor"><p>Add Doctor</p></a>
+            </div>
+            <div class="grid-item">
+                <a href="/doctorrecords"><img src="{{ url_for('static', filename='patrecord.png') }}" alt="Doctor Records"><p>Doctor Records</p></a>
+            </div>
+            <div class="logout-button">
+                <a href="{{ url_for('home') }}">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

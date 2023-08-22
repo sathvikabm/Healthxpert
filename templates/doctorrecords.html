@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .doctor-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .doctor-card p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor Records</h1>
+    <div id="doctor-records"></div>
+
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/get_doctor_records', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                var doctorRecords = response.doctor_records;
+
+                var doctorRecordsContainer = document.getElementById('doctor-records');
+                doctorRecords.forEach(function (doctorRecord) {
+                    var doctorCard = document.createElement('div');
+                    doctorCard.className = 'doctor-card';
+
+                    var doctorId = document.createElement('p');
+                    doctorId.textContent = 'Doctor ID: ' + doctorRecord.doctor_id;
+                    doctorCard.appendChild(doctorId);
+
+                    var name = document.createElement('p');
+                    name.textContent = 'Name: ' + doctorRecord.name;
+                    doctorCard.appendChild(name);
+
+                    var email = document.createElement('p');
+                    email.textContent = 'Email: ' + doctorRecord.email;
+                    doctorCard.appendChild(email);
+                    doctorRecordsContainer.appendChild(doctorCard);
+                });
+            }
+        };
+
+        var patientId = "{{ patient_id }}";  
+        var data = JSON.stringify({ 'patient_id': patientId });
+        xhr.send(data);
+    </script>
+</body>
+</html>

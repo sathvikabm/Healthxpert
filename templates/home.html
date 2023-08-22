@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            min-height: 100%;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, rgba(178, 229, 173, 0.8), rgba(47, 181, 47, 0.8)), url('../static/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #333;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            background-color: rgba(255, 255, 255, 0.625);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 100%;
+            margin-top: 100px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container {
+            width: 60%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-left: 0;
+        }
+        .spacer {
+            width: 5%;
+        }
+        .text-container {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-left: 10px;
+        }
+        .text-container h1 {
+            font-size: 2.5em;
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+        .text-container p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .text-container a {
+            font-size: 1em;
+            color: #6c757d;
+            margin: 0 5px;
+        }
+        .text-container a:hover {
+            color: #0056b3;
+        }
+        .circle {
+            width: calc(30% - 30px);
+            margin: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .circle img {
+            width: 100%;
+            height: 70%;
+            border-radius: 50%;
+        }
+        .lower-circle {
+            margin-top: 45px;
+        }
+        .message-box {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        .message-box p {
+            margin: 0;
+        }
+    </style>
+    <title>Home Page</title>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <div class="row">
+                <div class="circle">
+                    <img src="../static/image1.png" alt="Image 1">
+                    <div class="message-box">
+                        <p>Ask a doctor</p>
+                    </div>
+                </div>
+                <div class="circle">
+                    <img src="../static/Image2.png" alt="Image 2">
+                    <div class="message-box">
+                        <p>Diabetic or not?</p>
+                    </div>
+                </div>
+                <div class="circle">
+                    <img src="../static/image3.png" alt="Image 3">
+                    <div class="message-box">
+                        <p>PCOS?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="circle lower-circle">
+                    <img src="../static/image4.png" alt="Image 4">
+                    <div class="message-box">
+                        <p>Chatbot</p>
+                    </div>
+                </div>
+                <div class="circle lower-circle">
+                    <img src="../static/image5.png" alt="Image 5">
+                    <div class="message-box">
+                        <p>Cold/Flu</p>
+                    </div>
+                </div>
+                <div class="circle lower-circle">
+                    <img src="../static/image6.png" alt="Image 6">
+                    <div class="message-box">
+                        <p>Bills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-container">
+            <h1>Welcome to HealthExpert</h1>
+            <p>A platform for both patients and doctors to manage health efficiently.</p>
+            <a href="/login">Login</a>
+            <span style="margin: 0 10px;">--------</span>
+            <a href="/register">Register</a>
+        </div>
+    </body>
+</html>
