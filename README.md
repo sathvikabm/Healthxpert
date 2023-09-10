@@ -10,6 +10,9 @@ Decision Tree and Logistic Regression
 
 ![Website](./static/DevPost.png)
 
+## Chatbot
+![Chatbot](./static/chatbot.png)
+
 ## Functionality
 
 ![Website](./static/Main.jpeg)
